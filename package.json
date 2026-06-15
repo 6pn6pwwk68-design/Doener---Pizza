@@ -1,0 +1,29 @@
+{
+
+  "name": "panorama-grill",
+
+  "version": "1.0.0",
+
+  "type": "module",
+
+  "scripts": {},
+
+  "dependencies": {
+
+    "@netlify/database": "^1.0.0",
+
+    "drizzle-orm": "beta"
+
+  },
+
+  "devDependencies": {
+
+    "drizzle-kit": "beta",
+
+    "@netlify/functions": "^2.0.0",
+
+    "typescript": "^5.0.0"
+
+  }
+
+}
