@@ -1,0 +1,2041 @@
+<!DOCTYPE html>
+
+<html lang="de">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Pizzeria Panorama Grill</title>
+
+    <style>
+
+        :root {
+
+            --bg-color: #121212;
+
+            --surface-color: #1e1e1e;
+
+            --primary-color: #ff5722;
+
+            --text-color: #ffffff;
+
+            --text-muted: #b3b3b3;
+
+            --border-color: #333333;
+
+        }
+
+
+
+        * {
+
+            box-sizing: border-box;
+
+            margin: 0;
+
+            padding: 0;
+
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+        }
+
+
+
+        body {
+
+            background-color: var(--bg-color);
+
+            color: var(--text-color);
+
+            line-height: 1.6;
+
+        }
+
+
+
+        /* Auth Overlay */
+
+        #auth-overlay {
+
+            position: fixed;
+
+            top: 0;
+
+            left: 0;
+
+            width: 100%;
+
+            height: 100%;
+
+            background-color: rgba(0, 0, 0, 0.9);
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            z-index: 1000;
+
+        }
+
+
+
+        .auth-card {
+
+            background-color: var(--surface-color);
+
+            padding: 40px;
+
+            border-radius: 8px;
+
+            width: 100%;
+
+            max-width: 400px;
+
+            border: 1px solid var(--border-color);
+
+            text-align: center;
+
+        }
+
+
+
+        .auth-card h2 {
+
+            margin-bottom: 24px;
+
+            color: var(--primary-color);
+
+        }
+
+
+
+        .form-group {
+
+            margin-bottom: 20px;
+
+            text-align: left;
+
+        }
+
+
+
+        .form-group label {
+
+            display: block;
+
+            margin-bottom: 8px;
+
+            color: var(--text-muted);
+
+            font-size: 14px;
+
+        }
+
+
+
+        .form-group input {
+
+            width: 100%;
+
+            padding: 12px;
+
+            background-color: var(--bg-color);
+
+            border: 1px solid var(--border-color);
+
+            border-radius: 4px;
+
+            color: var(--text-color);
+
+            font-size: 16px;
+
+        }
+
+
+
+        .form-group input:focus {
+
+            border-color: var(--primary-color);
+
+            outline: none;
+
+        }
+
+
+
+        .btn-primary {
+
+            width: 100%;
+
+            padding: 14px;
+
+            background-color: var(--primary-color);
+
+            color: white;
+
+            border: none;
+
+            border-radius: 4px;
+
+            font-size: 16px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition: background 0.2s;
+
+        }
+
+
+
+        .btn-primary:hover {
+
+            background-color: #e64a19;
+
+        }
+
+
+
+        /* Main App Layout */
+
+        #main-app {
+
+            display: none;
+
+        }
+
+
+
+        header {
+
+            background-color: var(--surface-color);
+
+            border-bottom: 1px solid var(--border-color);
+
+            position: sticky;
+
+            top: 0;
+
+            z-index: 900;
+
+        }
+
+
+
+        .main-nav {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            max-width: 1200px;
+
+            margin: 0 auto;
+
+            padding: 15px 20px;
+
+        }
+
+
+
+        .logo {
+
+            font-size: 22px;
+
+            font-weight: bold;
+
+            color: var(--primary-color);
+
+        }
+
+
+
+        .nav-links {
+
+            display: flex;
+
+            list-style: none;
+
+            gap: 20px;
+
+        }
+
+
+
+        .nav-links a {
+
+            color: var(--text-color);
+
+            text-decoration: none;
+
+            font-weight: 500;
+
+            padding: 8px 16px;
+
+            border-radius: 4px;
+
+            transition: background 0.2s;
+
+        }
+
+
+
+        .nav-links a:hover, .nav-links a.active {
+
+            background-color: var(--primary-color);
+
+        }
+
+
+
+        .category-nav {
+
+            background-color: #1a1a1a;
+
+            border-bottom: 1px solid var(--border-color);
+
+            overflow-x: auto;
+
+            white-space: nowrap;
+
+        }
+
+
+
+        .
+category-container {
+
+            max-width: 1200px;
+
+            margin: 0 auto;
+
+            padding: 10px 20px;
+
+            display: flex;
+
+            gap: 15px;
+
+        }
+
+
+
+        .category-link {
+
+            color: var(--text-muted);
+
+            text-decoration: none;
+
+            font-size: 14px;
+
+            padding: 6px 12px;
+
+            border-radius: 20px;
+
+            border: 1px solid var(--border-color);
+
+            transition: all 0.2s;
+
+        }
+
+
+
+        .category-link:hover {
+
+            color: var(--text-color);
+
+            border-color: var(--primary-color);
+
+        }
+
+
+
+        /* Container & Views */
+
+        .container {
+
+            max-width: 1200px;
+
+            margin: 40px auto;
+
+            padding: 0 20px;
+
+        }
+
+
+
+        .view {
+
+            display: none;
+
+        }
+
+
+
+        .view.active {
+
+            display: block;
+
+        }
+
+
+
+        /* Menu View Styles */
+
+        .category-section {
+
+            margin-bottom: 60px;
+
+            scroll-margin-top: 130px;
+
+        }
+
+
+
+        .category-section h2 {
+
+            color: var(--primary-color);
+
+            border-bottom: 2px solid var(--border-color);
+
+            padding-bottom: 10px;
+
+            margin-bottom: 25px;
+
+        }
+
+
+
+        .category-note {
+
+            font-style: italic;
+
+            color: var(--text-muted);
+
+            margin-top: -15px;
+
+            margin-bottom: 20px;
+
+            font-size: 14px;
+
+        }
+
+
+
+        .menu-grid {
+
+            display: grid;
+
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+
+            gap: 25px;
+
+        }
+
+
+
+        .menu-item {
+
+            background-color: var(--surface-color);
+
+            border: 1px solid var(--border-color);
+
+            border-radius: 8px;
+
+            padding: 20px;
+
+            display: flex;
+
+            flex-direction: column;
+
+            justify-content: space-between;
+
+            position: relative;
+
+        }
+
+
+
+        .menu-item.not-available {
+
+            opacity: 0.5;
+
+        }
+
+
+
+        .item-info h3 {
+
+            font-size: 18px;
+
+            margin-bottom: 8px;
+
+        }
+
+
+
+        .item-description {
+
+            color: var(--text-muted);
+
+            font-size: 14px;
+
+            margin-bottom: 15px;
+
+        }
+
+
+
+        .item-footer {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            margin-top: auto;
+
+        }
+
+
+
+        .item-price {
+
+            font-weight: bold;
+
+            font-size: 16px;
+
+            color: var(--primary-color);
+
+        }
+
+
+
+        .btn-add {
+
+            background-color: var(--primary-color);
+
+            color: white;
+
+            border: none;
+
+            width: 32px;
+
+            height: 32px;
+
+            border-radius: 50%;
+
+            font-size: 18px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+        }
+
+
+
+        .badge-na {
+
+            background-color: #555;
+
+            color: #eee;
+
+            padding: 4px 8px;
+
+            border-radius: 4px;
+
+            font-size: 12px;
+
+        }
+
+
+
+        /* Order Views Styles */
+
+        .order-card {
+
+            background-color: var(--surface-color);
+
+            border: 1px solid var(--border-color);
+
+            border-radius: 8px;
+
+            padding: 25px;
+
+            margin-bottom: 20px;
+
+        }
+
+
+
+        .order-header {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            border-bottom: 1px solid var(--border-color);
+
+            padding-bottom: 12px;
+
+            margin-bottom: 15px;
+
+        }
+
+
+
+        .order-user {
+
+            font-weight: bold;
+
+            color: var(--primary-color);
+
+        }
+
+
+
+        .order-items {
+
+            list-style: none;
+
+            margin-bottom: 15px;
+
+        }
+
+
+
+        .order-items li {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            color: var(--text-muted);
+margin-bottom: 6px;
+
+        }
+
+
+
+        .order-total {
+
+            text-align: right;
+
+            font-weight: bold;
+
+            font-size: 18px;
+
+        }
+
+
+
+        .empty-message {
+
+            color: var(--text-muted);
+
+            text-align: center;
+
+            padding: 40px;
+
+            background-color: var(--surface-color);
+
+            border-radius: 8px;
+
+            border: 1px solid var(--border-color);
+
+        }
+
+
+
+        /* Cart */
+
+        .cart-fab {
+
+            position: fixed;
+
+            bottom: 30px;
+
+            right: 30px;
+
+            background-color: var(--primary-color);
+
+            color: white;
+
+            border: none;
+
+            width: 64px;
+
+            height: 64px;
+
+            border-radius: 50%;
+
+            font-size: 26px;
+
+            cursor: pointer;
+
+            box-shadow: 0 4px 20px rgba(255, 87, 34, 0.5);
+
+            z-index: 800;
+
+            display: none;
+
+            justify-content: center;
+
+            align-items: center;
+
+            transition: transform 0.2s;
+
+        }
+
+        .cart-fab:hover { transform: scale(1.1); }
+
+        .cart-fab.visible { display: flex; }
+
+
+
+        .cart-badge {
+
+            position: absolute;
+
+            top: -4px;
+
+            right: -4px;
+
+            background-color: #fff;
+
+            color: var(--primary-color);
+
+            border-radius: 50%;
+
+            width: 22px;
+
+            height: 22px;
+
+            font-size: 12px;
+
+            font-weight: bold;
+
+            display: none;
+
+            justify-content: center;
+
+            align-items: center;
+
+        }
+
+        .cart-fab.has-items .cart-badge { display: flex; }
+
+
+
+        .cart-overlay {
+
+            position: fixed;
+
+            top: 0; left: 0; right: 0; bottom: 0;
+
+            background: rgba(0, 0, 0, 0.6);
+
+            z-index: 1100;
+
+            display: none;
+
+        }
+
+        .cart-overlay.open { display: block; }
+
+
+
+        .cart-panel {
+
+            position: fixed;
+
+            top: 0;
+
+            right: 0;
+
+            width: 380px;
+
+            max-width: 100vw;
+
+            height: 100%;
+
+            background-color: var(--surface-color);
+
+            border-left: 1px solid var(--border-color);
+
+            z-index: 1200;
+
+            transform: translateX(100%);
+
+            transition: transform 0.3s ease;
+
+            display: flex;
+
+            flex-direction: column;
+
+        }
+
+        .cart-panel.open { transform: translateX(0); }
+
+
+
+        .cart-header {
+
+            padding: 20px;
+
+            border-bottom: 1px solid var(--border-color);
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+        }
+
+        .cart-header h3 { color: var(--primary-color); font-size: 20px; }
+
+        .cart-close-btn {
+
+            background: none;
+
+            border: none;
+
+            color: var(--text-muted);
+
+            font-size: 22px;
+
+            cursor: pointer;
+
+        }
+
+        .cart-close-btn:hover { color: var(--text-color); }
+
+
+
+        .cart-items-list {
+
+            flex: 1;
+
+            overflow-y: auto;
+
+            padding: 10px 20px;
+
+        }
+
+        .cart-item {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            padding: 12px 0;
+
+            border-bottom: 1px solid var(--border-color);
+
+        }
+
+        .cart-item-info { flex: 1; }
+
+        .cart-item-name { font-size: 14px; }
+
+        .cart-item-price { color: var(--primary-color); font-size: 13px; margin-top: 3px; }
+
+        .cart-item-remove {
+
+            background: none;
+
+            border: none;
+
+            color: #666;
+
+            font-size: 18px;
+
+            cursor: pointer;
+
+            padding: 0 6px;
+
+            line-height: 1;
+
+        }
+
+        .cart-item-remove:hover { color: var(--primary-color); }
+
+        .cart-empty-msg { text-align: center; color: var(--text-muted); padding: 40px 0; }
+
+
+
+        .cart-footer {
+
+            padding: 20px;
+
+            border-top: 1px solid var(--border-color);
+}
+
+        .cart-total-row {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            font-size: 20px;
+
+            font-weight: bold;
+
+            margin-bottom: 16px;
+
+        }
+
+        .btn-submit-cart {
+
+            width: 100%;
+
+            padding: 16px;
+
+            background-color: var(--primary-color);
+
+            color: white;
+
+            border: none;
+
+            border-radius: 4px;
+
+            font-size: 17px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition: background 0.2s;
+
+        }
+
+        .btn-submit-cart:hover { background-color: #e64a19; }
+
+        .btn-submit-cart:disabled { background-color: #555; cursor: not-allowed; }
+
+
+
+        .btn-delete-order {
+
+            background: none;
+
+            border: 1px solid #555;
+
+            color: #888;
+
+            padding: 6px 12px;
+
+            border-radius: 4px;
+
+            font-size: 13px;
+
+            cursor: pointer;
+
+            transition: all 0.2s;
+
+            margin-top: 12px;
+
+        }
+
+        .btn-delete-order:hover {
+
+            border-color: #e53935;
+
+            color: #e53935;
+
+            background-color: rgba(229, 57, 53, 0.08);
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+
+
+    <!-- STEP 1: Auth Fenster -->
+
+    <div id="auth-overlay">
+
+        <div class="auth-card">
+
+            <h2>Konto erstellen</h2>
+
+            <form id="auth-form" onsubmit="handleAuth(event)">
+
+                <div class="form-group">
+
+                    <label for="username">Benutzername</label>
+
+                    <input type="text" id="username" required autocomplete="off">
+
+                </div>
+
+                <div class="form-group">
+
+                    <label for="password">Passwort</label>
+
+                    <input type="password" id="password" required>
+
+                </div>
+
+                <button type="submit" class="btn-primary">Registrieren &amp; Anmelden</button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- STEP 2 & 3: Hauptseite nach Login -->
+
+    <div id="main-app">
+
+        <header>
+
+            <div class="main-nav">
+
+                <div class="logo">Panorama Grill</div>
+
+                <ul class="nav-links">
+
+                    <li><a href="#" id="link-speisekarte" class="active" onclick="switchView('speisekarte')">Speisekarte</a></li>
+
+                    <li><a href="#" id="link-meine" onclick="switchView('meine')">Meine Bestellungen</a></li>
+
+                    <li><a href="#" id="link-alle" onclick="switchView('alle')">Alle Bestellungen</a></li>
+
+                </ul>
+
+            </div>
+
+
+
+            <!-- Kategorien-Leiste nur für Speisekarte sichtbar -->
+
+            <div class="category-nav" id="sub-header-categories">
+
+                <div class="category-container">
+
+                    <a href="#cat-specials" class="category-link">Specials</a>
+
+                    <a href="#cat-veg" class="category-link">Vegetarisch &amp; Falafel</a>
+
+                    <a href="#cat-doener" class="category-link">Dönergerichte</a>
+
+                    <a href="#cat-pizzen" class="category-link">Pizzen</a>
+
+                    <a href="#cat-snacks" class="category-link">Pizzabrötchen</a>
+
+                    <a href="#cat-pasta" class="category-link">Pastagerichte</a>
+
+                    <a href="#cat-ueberbacken" class="category-link">Überbacken</a>
+
+                    <a href="#cat-saucen" class="category-link">Saucen</a>
+
+                    <a href="#cat-getraenke" class="category-link">Getränke</a>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+
+        <main class="container">
+
+            <!-- VIEW: SPEISEKARTE -->
+
+            <div id="view-speisekarte" class="view active">
+
+                <!-- Die Gerichte werden dynamisch per JavaScript eingefügt -->
+
+            </div>
+
+
+
+            <!-- VIEW: MEINE BESTELLUNGEN -->
+
+            <div id="view-meine" class="view">
+
+                <h2 style="margin-bottom: 25px; color: var(--primary-color);">Meine Bestellungen</h2>
+<div id="meine-bestellungen-liste"></div>
+
+            </div>
+
+
+
+            <!-- VIEW: ALLE BESTELLUNGEN -->
+
+            <div id="view-alle" class="view">
+
+                <h2 style="margin-bottom: 25px; color: var(--primary-color);">Alle Bestellungen (Systemweit)</h2>
+
+                <div id="alle-bestellungen-liste"></div>
+
+            </div>
+
+        </main>
+
+    </div>
+
+
+
+    <!-- Cart FAB -->
+
+    <button class="cart-fab" id="cart-fab" onclick="toggleCart()" title="Warenkorb">
+
+        🛒
+
+        <span class="cart-badge" id="cart-badge">0</span>
+
+    </button>
+
+
+
+    <!-- Cart Overlay + Panel -->
+
+    <div class="cart-overlay" id="cart-overlay" onclick="toggleCart()"></div>
+
+    <div class="cart-panel" id="cart-panel">
+
+        <div class="cart-header">
+
+            <h3>Warenkorb</h3>
+
+            <button class="cart-close-btn" onclick="toggleCart()">✕</button>
+
+        </div>
+
+        <div class="cart-items-list" id="cart-items-list">
+
+            <div class="cart-empty-msg">Dein Warenkorb ist leer.</div>
+
+        </div>
+
+        <div class="cart-footer">
+
+            <div class="cart-total-row">
+
+                <span>Gesamt</span>
+
+                <span id="cart-total-display">0,00 €</span>
+
+            </div>
+
+            <button class="btn-submit-cart" id="btn-submit-cart" onclick="submitCart()" disabled>
+
+                Jetzt bestellen
+
+            </button>
+
+        </div>
+
+    </div>
+
+
+
+    <script>
+
+        let currentUser = "";
+
+        let cart = [];
+
+
+
+        // Restore session from localStorage so the page remembers who you are
+
+        const savedUser = localStorage.getItem('pg_user');
+
+        if (savedUser) {
+
+            currentUser = savedUser;
+
+        }
+
+
+
+        const menuData = {
+
+            specials: {
+
+                title: "Specials",
+
+                items: [
+
+                    { name: "Chicken Nuggets (8 Stück)", price: "6,50 €" },
+
+                    { name: "Chicken Nuggets Menü", price: "9,50 €", desc: "mit Pommes frites und gemischtem Salat" },
+
+                    { name: "Hamburger", price: "7,00 €" },
+
+                    { name: "Cheeseburger", price: "7,00 €" },
+
+                    { name: "Hamburger Menü", price: "10,00 €", desc: "mit Pommes frites und gemischtem Salat" },
+
+                    { name: "Cheeseburger Menü", price: "10,00 €", desc: "mit Pommes frites und gemischtem Salat" },
+
+                    { name: "Pommes frites", price: "4,50 €" }
+
+                ]
+
+            },
+
+            veg: {
+
+                title: "Vegetarische Specials & Falafel",
+
+                items: [
+
+                    { name: "Halloumi Tasche", price: "7,50 €", desc: "mit Halloumi, gemischtem Salat und Tzatziki" },
+
+                    { name: "Halloumi Dürüm (Wrap)", price: "7,50 €", desc: "mit Halloumi, gemischtem Salat und Tzatziki" },
+
+                    { name: "Falafel Tasche", price: "7,50 €", desc: "mit gemischtem Salat und Tzatziki" },
+
+                    { name: "Falafel Rolle", price: "ab 9,00 €", desc: "Pita mit gemischtem Salat und Tzatziki" },
+
+                    { name: "Falafel Dürüm", price: "8,00 €", desc: "Wrap mit gemischtem Salat und Tzatziki" },
+
+                    { name: "Falafel Teller Salat", price: "11,50 €", desc: "mit Tzatziki und Brot" },
+
+                    { name: "Falafel Teller Pommes", price: "11,50 €", desc: "mit gemischtem Salat, Pommes frites und Tzatziki" },
+
+                    { name: "Halloumi Tasche (Kopie)", price: "Nicht verfügbar", desc: "mit Halloumi, gemischtem Salat und Tzatziki", na: true },
+
+                    { name: "Falafel Tasche (Kopie)", price: "Nicht verfügbar", desc: "mit gemischtem Salat und Tzatziki", na: true }
+
+                ]
+
+            },
+
+            doener: {
+
+                title: "Dönergerichte",
+
+                items: [
+
+                    { name: "Dönertasche", price: "6,00 €", desc: "mit Dönerfleisch, gemischtem Salat und Tzatziki" },
+
+                    { name: "Döner Rolle", price: "ab 6,50 €", desc: "Pita mit Dönerfleisch" },
+                  { name: "Döner (vegetarisch)", price: "6,50 €" },
+
+                    { name: "Döner Teller Salat", price: "12,50 €", desc: "mit Dönerfleisch und Dönertaschen-Brot" },
+
+                    { name: "Döner Teller Pommes", price: "12,50 €", desc: "mit Dönerfleisch, Pommes frites und gemischtem Salat" },
+
+                    { name: "Pom Döner", price: "6,00 €" },
+
+                    { name: "Portion Dönerfleisch", price: "7,00 €" },
+
+                    { name: "Lahmacun", price: "5,00 €" },
+
+                    { name: "Lahmacun Salat Döner Tzatziki", price: "8,00 €" },
+
+                    { name: "Lahmacun Salat Tzatziki", price: "7,00 €" },
+
+                    { name: "Döner Dürüm", price: "6,50 €", desc: "Wrap mit Dönerfleisch" },
+
+                    { name: "Dönertasche (Kopie)", price: "Nicht verfügbar", desc: "mit Dönerfleisch, gemischtem Salat und Tzatziki", na: true }
+
+                ]
+
+            },
+
+            pizzen: {
+
+                title: "Pizzen",
+
+                items: [
+
+                    { name: "Pizza Margherita", price: "ab 7,50 €" },
+
+                    { name: "Pizza Cipolla", price: "ab 8,00 €", desc: "mit Zwiebeln" },
+
+                    { name: "Pizza Paprika", price: "ab 8,50 €" },
+
+                    { name: "Pizza Prosciutto", price: "ab 8,00 €", desc: "mit Schinken" },
+
+                    { name: "Pizza Salami", price: "ab 8,00 €" },
+
+                    { name: "Pizza Artischocken", price: "ab 8,00 €" },
+
+                    { name: "Pizza Funghi", price: "ab 8,00 €", desc: "mit Champignons" },
+
+                    { name: "Pizza Funghi e Prosciutto", price: "ab 8,50 €", desc: "mit Champignons und Schinken" },
+
+                    { name: "Pizza Tonno", price: "ab 8,00 €", desc: "mit Thunfisch" },
+
+                    { name: "Pizza Tonno e Cipolla", price: "ab 8,50 €", desc: "mit Thunfisch und Zwiebeln" },
+
+                    { name: "Pizza Paprika e Prosciutto", price: "ab 8,50 €", desc: "mit Schinken und Paprika" },
+
+                    { name: "Pizza Funghi e Tonno", price: "ab 9,00 €", desc: "mit Champignons und Thunfisch" },
+
+                    { name: "Pizza Alberto", price: "ab 9,00 €", desc: "mit Champignons, Thunfisch und Paprika" },
+
+                    { name: "Pizza Quattro Stagioni", price: "ab 9,00 €", desc: "mit Schinken, Champignons, Thunfisch und Artischocken" },
+
+                    { name: "Pizza Capriciosa", price: "ab 9,50 €", desc: "mit Salami, Champignons, Kapern und Artischocken" },
+
+                    { name: "Pizza Speziale", price: "ab 9,50 €", desc: "mit Champignons, Paprika, Schinken, Zwiebeln und Salami" },
+
+                    { name: "Pizza Calzone", price: "ab 9,50 €", desc: "mit Schinken, Champignons, Salami und gekochtem Ei" },
+
+                    { name: "Pizza Calzone Döner", price: "ab 9,00 €", desc: "mit Dönerfleisch, Tzatziki und Zwiebeln" },
+
+                    { name: "Pizza Tonno e Tzatziki", price: "ab 9,00 €", desc: "mit Thunfisch und Zwiebeln" },
+
+                    { name: "Pizza Mozzarella", price: "ab 9,50 €", desc: "mit Tomaten, Mozzarella, Spinat und Knoblauch" },
+
+                    { name: "Pizza Salami Spezial", price: "ab 9,50 €", desc: "mit Salami, Paprika, Thunfisch und Zwiebeln" },
+
+                    { name: "Pizza alla Sucuk", price: "ab 9,00 €", desc: "mit türkischer Knoblauchwurst" },
+
+                    { name: "Pizza Frutti di Mare", price: "ab 9,50 €", desc: "mit Meeresfrüchten und Knoblauch" },
+
+                    { name: "Pizza Gorgonzola i Cipolla", price: "ab 9,00 €", desc: "mit Zwiebeln und Gorgonzola" },
+
+                    { name: "Pizza Paesano", price: "ab 9,50 €", desc: "mit Schinken, Pilzen, Zwiebeln und gekochtem Ei" },
+
+                    { name: "Pizza Campagniola", price: "ab 9,00 €", desc: "mit Broccoli, Spinat und Knoblauch" },
+
+                    { name: "Pizza Exotica", price: "ab 9,00 €", desc: "mit Currysauce, Hähnchenbruststreifen und Ananas" },
+                  { name: "Pizza Panorama", price: "ab 9,50 €", desc: "mit Schinken, gekochten Eiern, Champignons, Salami und Artischocken" },
+
+                    { name: "Pizza Oceano", price: "ab 9,50 €", desc: "mit Thunfisch, Krabben, Meeresfrüchten und Knoblauch" },
+
+                    { name: "Pizza Gamberetti", price: "ab 9,50 €", desc: "mit Krabben und Knoblauch" },
+
+                    { name: "Pizza Royal", price: "ab 8,50 €", desc: "mit Broccoli und Sauce Hollandaise" },
+
+                    { name: "Pizza Spinaci", price: "ab 8,50 €", desc: "mit Spinat und Knoblauch" },
+
+                    { name: "Pizza Schinken Spezial", price: "ab 9,50 €", desc: "mit Paprika, Thunfisch und Zwiebeln" },
+
+                    { name: "Pizza alla Norma", price: "ab 9,00 €", desc: "mit Spinat, Feta und Oliven" },
+
+                    { name: "Pizza Napoli", price: "ab 9,00 €", desc: "mit Zwiebeln und Sardellen" },
+
+                    { name: "Pizza Capitano", price: "ab 9,00 €", desc: "mit Spargel, Artischocken und Broccoli" },
+
+                    { name: "Pizza Bolognese", price: "ab 8,50 €", desc: "mit Hackfleischsauce" },
+
+                    { name: "Pizza Rustica", price: "ab 9,50 €", desc: "mit Zwiebeln, Champignons, Thunfisch und Salami" },
+
+                    { name: "Pizza Döner", price: "ab 9,50 €", desc: "mit Dönerfleisch, Tzatziki und Zwiebeln" },
+
+                    { name: "Pizza Döner Spezial", price: "ab 9,50 €", desc: "mit Dönerfleisch, Zwiebeln und Sauce Hollandaise" },
+
+                    { name: "Pizza Mexicana", price: "ab 9,00 €", desc: "mit Hackfleisch, Kidneybohnen, Mais und Peperoni" },
+
+                    { name: "Pizza Caprese", price: "ab 9,00 €", desc: "mit Tomaten, Mozzarella und Basilikum" },
+
+                    { name: "Pizza Hawaii", price: "ab 9,00 €", desc: "mit Schinken und Ananas" },
+
+                    { name: "Pizza Quattro Formaggi", price: "ab 9,50 €", desc: "mit Gouda, Gorgonzola, Schafskäse und Mozzarella" },
+
+                    { name: "Pizza Italia", price: "ab 9,00 €", desc: "mit Spinat, Schafskäse, Tomaten und Knoblauch" },
+
+                    { name: "Pizza Vegetaria", price: "ab 9,50 €", desc: "mit Broccoli, Spinat, Zwiebeln, Spargel und Paprika" },
+
+                    { name: "Pizza Vikinger", price: "11,00 €", desc: "mit Dönerfleisch, gemischtem Salat, Feta und Oliven" },
+
+                    { name: "Pizza Diablo", price: "Nicht verfügbar", desc: "mit Salami, Pilzen, Paprika und Peperoni", na: true }
+
+                ]
+
+            },
+
+            snacks: {
+
+                title: "Pizzabrötchen & Snacks",
+
+                items: [
+
+                    { name: "Pizzabrötchen Franco Spezial", price: "7,00 €" },
+
+                    { name: "Pizzabrötchen mit Kräuterbutter", price: "5,00 €" },
+
+                    { name: "Kräuterbutter", price: "2,00 €" }
+
+                ]
+
+            },
+
+            pasta: {
+
+                title: "Pastagerichte",
+
+                items: [
+
+                    { name: "Spaghetti Napoli", price: "9,00 €", desc: "mit Tomatensauce" },
+
+                    { name: "Spaghetti Tarantina", price: "10,00 €", desc: "mit Meeresfrüchten, Tomaten und Knoblauch" },
+
+                    { name: "Tortellini alla Panna", price: "10,00 €", desc: "gefüllte Nudeln mit Schinken und Sahnesauce" },
+
+                    { name: "Tortellini Profumo Bosco", price: "9,00 €", desc: "gefüllte Nudeln mit Champignons und Sahnesauce" },
+
+                    { name: "Tortellini Raguttati", price: "9,50 €", desc: "gefüllte Nudeln mit Hackfleisch, Erbsen und Sahne" },
+
+                    { name: "Maccaroni al Formaggi", price: "9,50 €", desc: "kurze Röhrennudeln mit Käse und Sahne" },
+
+                    { name: "Maccaroni alla Panorama", price: "9,50 €", desc: "kurze Röhrennudeln mit Gorgonzola, Spargel und Sahne" },
+
+                    { name: "Tagliatelle alla Boscailoa", price: "9,00 €", desc: "mit Sahne, Tomaten, Champignons, Schinken und Spinat" },
+                  { name: "Maccaroni all Arabiata (scharf)", price: "9,50 €", desc: "kurze Röhrennudeln mit Oliven, Paprika, Peperoni und Tomatensauce" },
+
+                    { name: "Maccaroni Quattro Formaggi", price: "10,00 €", desc: "kurze Röhrennudeln mit Gorgonzola, Gouda, Feta und Sahnesauce" },
+
+                    { name: "Maccaroni Vegetaria", price: "9,50 €", desc: "mit Erbsen, Broccoli, Spargel und Tomatensauce" },
+
+                    { name: "Linguine al Pesto", price: "10,00 €", desc: "mit langen Nudeln, Basilikum-Pesto, Feta und Knoblauch" },
+
+                    { name: "Linguine al Tonno", price: "10,50 €", desc: "mit langen Nudeln, Thunfisch, Sahne, Tomaten und Knoblauch" },
+
+                    { name: "Linguine agli Scampi", price: "10,50 €", desc: "mit langen Nudeln, Sahne und Knoblauch" },
+
+                    { name: "Spaghetti Carbonara", price: "9,50 €", desc: "mit Schinken, Sahne und Ei" },
+
+                    { name: "Tortellini Primavera", price: "10,00 €", desc: "gefüllte Nudeln mit Erbsen, Broccoli, Zwiebeln, Paprika und Sahnesauce" },
+
+                    { name: "Macaroni alla Cesar", price: "10,50 €", desc: "Röhrennudeln mit Pilzen, Hähnchenbruststreifen und Sahnesauce" },
+
+                    { name: "Döner Auflauf", price: "10,50 €", desc: "mit Dönerfleisch, Tomaten, Tomatensauce, überbackenem Käse und Sahne" },
+
+                    { name: "Spaghetti Bolognese", price: "Nicht verfügbar", desc: "mit Hackfleischsauce", na: true }
+
+                ]
+
+            },
+
+            ueberbacken: {
+
+                title: "Überbackene Pastagerichte",
+
+                note: "Alle Gerichte werden mit Bolognese-Sahnesauce und überbackenem Käse zubereitet.",
+
+                items: [
+
+                    { name: "Lasagne al Forno", price: "10,00 €" },
+
+                    { name: "Macaroni al Döner", price: "10,00 €" },
+
+                    { name: "Maccaroni al Forno", price: "9,50 €" },
+
+                    { name: "Spaghetti al Forno", price: "9,50 €" },
+
+                    { name: "Tortellini al Forno", price: "9,50 €" },
+
+                    { name: "Lasagne al Funghi", price: "9,50 €" }
+
+                ]
+
+            },
+
+            saucen: {
+
+                title: "Saucen",
+
+                items: [
+
+                    { name: "Curry Ketchup", price: "1,50 €" },
+
+                    { name: "Mayonnaise", price: "1,50 €" },
+
+                    { name: "Cocktailsauce (Leichte Schärfe)", price: "1,50 €" },
+
+                    { name: "Knoblauchsauce", price: "1,50 €" },
+
+                    { name: "Joppiesauce", price: "1,50 €" },
+
+                    { name: "Sauce Hollandaise", price: "1,50 €" },
+
+                    { name: "Tzatziki", price: "1,50 €" }
+
+                ]
+
+            },
+
+            getraenke: {
+
+                title: "Alkoholfreie Getränke",
+
+                items: [
+
+                    { name: "Coca-Cola 0,33l", price: "2,50 €", desc: "zzgl. Pfand 0,25 €" },
+
+                    { name: "Coca-Cola 1,0l (MEHRWEG)", price: "3,60 €", desc: "zzgl. Pfand 0,15 €" },
+
+                    { name: "Coca-Cola Zero Sugar 0,33l", price: "2,50 €", desc: "zzgl. Pfand 0,25 €" },
+
+                    { name: "Coca-Cola Zero Sugar 1,0l", price: "3,75 €" },
+
+                    { name: "Fanta Orange 0,33l", price: "2,50 €", desc: "zzgl. Pfand 0,25 €" },
+
+                    { name: "Sprite 0,33l (MEHRWEG)", price: "2,50 €", desc: "zzgl. Pfand 0,25 €" },
+
+                    { name: "Sprite 1,0l (MEHRWEG)", price: "3,75 €" },
+
+                    { name: "Ayran 0,24l", price: "2,50 €" },
+
+                    { name: "Stilles Wasser 0,33l", price: "1,50 €", desc: "zzgl. Pfand 0,25 €" },
+
+                    { name: "uludag Gazoz 0,33l", price: "2,75 €" },
+
+                    { name: "Energy 0,25l", price: "2,50 €", desc: "zzgl. Pfand 0,25 €" },
+
+                    { name: "Fanta Orange 1,0l", price: "Nicht verfügbar", na: true }
+
+                ]
+
+            }
+
+        };
+
+
+
+        function showApp() {
+
+            document.getElementById('auth-overlay').style.
+          display = 'none';
+
+            document.getElementById('main-app').style.display = 'block';
+
+            document.getElementById('cart-fab').classList.add('visible');
+
+            renderSpeisekarte();
+
+        }
+
+
+
+        // If a session was restored, skip the login screen immediately
+
+        if (savedUser) {
+
+            showApp();
+
+        }
+
+
+
+        function handleAuth(event) {
+
+            event.preventDefault();
+
+            const userInp = document.getElementById('username').value.trim();
+
+            if (userInp) {
+
+                currentUser = userInp;
+
+                localStorage.setItem('pg_user', currentUser);
+
+                showApp();
+
+            }
+
+        }
+
+
+
+        function switchView(viewName) {
+
+            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+
+            document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+
+
+
+            document.getElementById('view-' + viewName).classList.add('active');
+
+            document.getElementById('link-' + viewName).classList.add('active');
+
+
+
+            const subHeader = document.getElementById('sub-header-categories');
+
+            subHeader.style.display = viewName === 'speisekarte' ? 'block' : 'none';
+
+
+
+            if (viewName === 'meine') renderMeineBestellungen();
+
+            if (viewName === 'alle') renderAlleBestellungen();
+
+        }
+
+
+
+        function renderSpeisekarte() {
+
+            const container = document.getElementById('view-speisekarte');
+
+            container.innerHTML = "";
+
+
+
+            const keyMap = {
+
+                specials: "cat-specials",
+
+                veg: "cat-veg",
+
+                doener: "cat-doener",
+
+                pizzen: "cat-pizzen",
+
+                snacks: "cat-snacks",
+
+                pasta: "cat-pasta",
+
+                ueberbacken: "cat-ueberbacken",
+
+                saucen: "cat-saucen",
+
+                getraenke: "cat-getraenke"
+
+            };
+
+
+
+            for (let key in menuData) {
+
+                const sectionData = menuData[key];
+
+                const section = document.createElement('section');
+
+                section.className = 'category-section';
+
+                section.id = keyMap[key];
+
+
+
+                let html = '<h2>' + sectionData.title + '</h2>';
+
+                if (sectionData.note) {
+
+                    html += '<p class="category-note">' + sectionData.note + '</p>';
+
+                }
+
+                html += '<div class="menu-grid">';
+
+
+
+                sectionData.items.forEach(function(item) {
+
+                    const naClass = item.na ? 'not-available' : '';
+
+                    const safeName = item.name.replace(/'/g, "\\'");
+
+                    const safePrice = item.price.replace(/'/g, "\\'");
+
+                    html += '<div class="menu-item ' + naClass + '">';
+
+                    html += '<div class="item-info">';
+
+                    html += '<h3>' + item.name + '</h3>';
+
+                    html += '<p class="item-description">' + (item.desc || '') + '</p>';
+
+                    html += '</div>';
+
+                    html += '<div class="item-footer">';
+
+                    html += '<span class="item-price">' + item.price + '</span>';
+
+                    if (item.na) {
+
+                        html += '<span class="badge-na">Nicht verfügbar</span>';
+
+                    } else {
+
+                        html += '<button class="btn-add" onclick="addToCart(this, \'' + safeName + '\', \'' + safePrice + '\')">+</button>';
+
+                    }
+
+                    html += '</div></div>';
+
+                });
+
+
+
+                html += '</div>';
+
+                section.innerHTML = html;
+
+                container.appendChild(section);
+
+            }
+
+        }
+
+
+
+        function parsePrice(preis) {
+
+            const clean = preis.replace('ab ', '').replace(' €', '').replace(',', '.').trim();
+
+            const match = clean.match(/[\d.]+/);
+
+            return match ? parseFloat(match[0]) : 0;
+
+        }
+
+
+
+        function addToCart(btn, name, preis) {
+
+            cart.
+          push({ name, preis });
+
+            updateCartUI();
+
+            btn.textContent = '✓';
+
+            btn.style.backgroundColor = '#4caf50';
+
+            setTimeout(function() {
+
+                btn.textContent = '+';
+
+                btn.style.backgroundColor = '';
+
+            }, 700);
+
+        }
+
+
+
+        function removeFromCart(idx) {
+
+            cart.splice(idx, 1);
+
+            updateCartUI();
+
+        }
+
+
+
+        function updateCartUI() {
+
+            const count = cart.length;
+
+            const fab = document.getElementById('cart-fab');
+
+            const badge = document.getElementById('cart-badge');
+
+            const list = document.getElementById('cart-items-list');
+
+            const totalEl = document.getElementById('cart-total-display');
+
+            const submitBtn = document.getElementById('btn-submit-cart');
+
+
+
+            badge.textContent = count;
+
+            fab.classList.toggle('has-items', count > 0);
+
+
+
+            if (count === 0) {
+
+                list.innerHTML = '<div class="cart-empty-msg">Dein Warenkorb ist leer.</div>';
+
+            } else {
+
+                list.innerHTML = '';
+
+                cart.forEach(function(item, idx) {
+
+                    const div = document.createElement('div');
+
+                    div.className = 'cart-item';
+
+                    div.innerHTML =
+
+                        '<div class="cart-item-info">' +
+
+                        '<div class="cart-item-name">' + item.name + '</div>' +
+
+                        '<div class="cart-item-price">' + item.preis + '</div>' +
+
+                        '</div>' +
+
+                        '<button class="cart-item-remove" onclick="removeFromCart(' + idx + ')">✕</button>';
+
+                    list.appendChild(div);
+
+                });
+
+            }
+
+
+
+            const total = cart.reduce(function(sum, item) { return sum + parsePrice(item.preis); }, 0);
+
+            totalEl.textContent = total.toFixed(2).replace('.', ',') + ' €';
+
+            submitBtn.disabled = count === 0;
+
+        }
+
+
+
+        function toggleCart() {
+
+            const panel = document.getElementById('cart-panel');
+
+            const overlay = document.getElementById('cart-overlay');
+
+            const isOpen = panel.classList.contains('open');
+
+            panel.classList.toggle('open', !isOpen);
+
+            overlay.classList.toggle('open', !isOpen);
+
+        }
+
+
+
+        async function submitCart() {
+
+            if (cart.length === 0) return;
+
+            const btn = document.getElementById('btn-submit-cart');
+
+            btn.disabled = true;
+
+            btn.textContent = 'Wird bestellt…';
+
+            try {
+
+                const items = cart.map(function(item) { return '1x ' + item.name; });
+
+                const total = cart.reduce(function(sum, item) { return sum + parsePrice(item.preis); }, 0);
+
+                const totalStr = total.toFixed(2).replace('.', ',') + ' €';
+
+                const res = await fetch('/api/orders', {
+
+                    method: 'POST',
+
+                    headers: { 'Content-Type': 'application/json' },
+
+                    body: JSON.stringify({ username: currentUser, items: items, total: totalStr })
+
+                });
+
+                if (!res.ok) throw new Error('Fehler beim Speichern');
+
+                cart = [];
+
+                updateCartUI();
+
+                toggleCart();
+
+                alert('Bestellung erfolgreich aufgegeben!');
+
+            } catch (e) {
+
+                alert('Fehler: Bestellung konnte nicht gespeichert werden.');
+
+            } finally {
+
+                btn.disabled = cart.length === 0;
+
+                btn.textContent = 'Jetzt bestellen';
+
+            }
+
+        }
+
+
+
+        async function renderMeineBestellungen() {
+
+            const listContainer = document.getElementById('meine-bestellungen-liste');
+
+            listContainer.innerHTML = '<div class="empty-message">Wird geladen…</div>';
+
+            try {
+
+                const res = await fetch('/api/orders?username=' + encodeURIComponent(currentUser));
+
+                const orders = await res.json();
+          listContainer.innerHTML = "";
+
+                if (orders.length === 0) {
+
+                    listContainer.innerHTML = '<div class="empty-message">Du hast noch keine Bestellungen getätigt.</div>';
+
+                    return;
+
+                }
+
+                orders.forEach(function(o) { listContainer.appendChild(createOrderCard(o, false, true)); });
+
+            } catch (e) {
+
+                listContainer.innerHTML = '<div class="empty-message">Fehler beim Laden der Bestellungen.</div>';
+
+            }
+
+        }
+
+
+
+        async function renderAlleBestellungen() {
+
+            const listContainer = document.getElementById('alle-bestellungen-liste');
+
+            listContainer.innerHTML = '<div class="empty-message">Wird geladen…</div>';
+
+            try {
+
+                const res = await fetch('/api/orders');
+
+                const orders = await res.json();
+
+                listContainer.innerHTML = "";
+
+                if (orders.length === 0) {
+
+                    listContainer.innerHTML = '<div class="empty-message">Es liegen keine Systembestellungen vor.</div>';
+
+                    return;
+
+                }
+
+                orders.forEach(function(o) { listContainer.appendChild(createOrderCard(o, true)); });
+
+            } catch (e) {
+
+                listContainer.innerHTML = '<div class="empty-message">Fehler beim Laden der Bestellungen.</div>';
+
+            }
+
+        }
+
+
+
+        function createOrderCard(order, showUser, canDelete) {
+
+            const card = document.createElement('div');
+
+            card.className = 'order-card';
+
+            card.id = 'order-card-' + order.id;
+
+            let itemsHtml = "";
+
+            const items = Array.isArray(order.items) ? order.items : [];
+
+            items.forEach(function(i) { itemsHtml += '<li>' + i + '</li>'; });
+
+
+
+            const date = order.createdAt ? new Date(order.createdAt).toLocaleString('de-DE') : '';
+
+            card.innerHTML =
+
+                '<div class="order-header">' +
+
+                '<span>Bestell-ID: #' + order.id + (date ? ' &nbsp;·&nbsp; ' + date : '') + '</span>' +
+
+                (showUser ? '<span class="order-user">Kunde: ' + order.username + '</span>' : '') +
+
+                '</div>' +
+
+                '<ul class="order-items">' + itemsHtml + '</ul>' +
+
+                '<div class="order-total">Gesamt: ' + order.total + '</div>' +
+
+                (canDelete ? '<button class="btn-delete-order" onclick="deleteOrder(' + order.id + ')">Bestellung löschen</button>' : '');
+
+            return card;
+
+        }
+
+
+
+        async function deleteOrder(id) {
+
+            if (!confirm('Möchtest du diese Bestellung wirklich löschen?')) return;
+
+            try {
+
+                const res = await fetch('/api/orders?id=' + id + '&username=' + encodeURIComponent(currentUser), {
+
+                    method: 'DELETE'
+
+                });
+
+                if (res.status === 403) {
+
+                    alert('Du kannst nur deine eigenen Bestellungen löschen.');
+
+                    return;
+
+                }
+
+                if (!res.ok && res.status !== 204) {
+
+                    throw new Error('Fehler');
+
+                }
+
+                const card = document.getElementById('order-card-' + id);
+
+                if (card) card.remove();
+
+                const list = document.getElementById('meine-bestellungen-liste');
+
+                if (list && list.children.length === 0) {
+
+                    list.innerHTML = '<div class="empty-message">Du hast noch keine Bestellungen getätigt.</div>';
+
+                }
+
+            } catch (e) {
+
+                alert('Fehler beim Löschen der Bestellung.');
+
+            }
+
+        }
+
+    </script>
+
+</body>
+
+</html>
+          
+                  
